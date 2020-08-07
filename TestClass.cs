@@ -39,7 +39,7 @@ namespace NumbersToWords
         [TestCase("nine hundred ninety-nine", "999")]
         public void From_0_To_999_Test(string expected, string number)
         {
-            string words = new NumberToWordsConverter().From0To999(number);
+            string words = new NumberToWordsConverter().ConvertSegmentToWords(number);
             Assert.AreEqual(expected, words);
         }
 
@@ -55,7 +55,7 @@ namespace NumbersToWords
 
         public void Split_Test(string[] expected, string number)
         {
-            string[] words = new NumberToWordsConverter().SplitNumber(number);
+            string[] words = new NumberToWordsConverter().SplitNumberToSegmentsOfTrees(number);
             Assert.AreEqual(expected, words);
         }
 
@@ -82,13 +82,13 @@ namespace NumbersToWords
 
     public class NumberToWordsConverter
     {
-        private readonly Dictionary<string, string> NameOfNumber = new Dictionary<string, string>(){
+        private readonly Dictionary<string, string> nameOfNumber = new Dictionary<string, string>(){
             { "0", "zero"}, {"1", "one"}, {"2", "two"}, {"3", "three"}, {"4", "four"}, {"5", "five"}, {"6", "six"}, {"7", "seven"}, {"8", "eight" },
             { "9", "nine"}, {"10", "ten"}, { "11", "eleven"}, {"12", "twelve"}, {"13", "thirteen"}, {"14", "fourteen"}, {"15", "fifteen"},
             { "16", "sixteen"}, {"17", "seventeen"}, {"18", "eighteen"}, {"19", "ninteen" }, {"20", "twenty"}, {"30", "thirty"},
             { "40", "forty"}, {"50", "fifty"}, {"60", "sixty"}, {"70", "seventy"}, {"80", "eighty"}, {"90", "ninety" } };
 
-        private readonly string[] X = new string[]{"", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion",
+        private readonly string[] segmentsSeparator = new string[]{"", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion",
             "sextillion", "septillion", "octillion","nonillion","decillion","undecillion", };
 
         public NumberToWordsConverter() { }
@@ -96,61 +96,56 @@ namespace NumbersToWords
         public string Convert(string number)
         {
             number = number.Replace(" ", "");
-
             string result = "";
+            int segmentSeparatorCounter = 0;
 
-            int i = 0;
-
-            foreach (string s in SplitNumber(number))
+            foreach (string s in SplitNumberToSegmentsOfTrees(number))
             {
-                if (s!="000")
-                {
-                    result = From0To999(s.TrimStart('0')) + " " + X[i] + " " + result;                    
+                if (IsSegmentNotEmpty(s))
+                    result = ConvertSegmentToWords(s.TrimStart('0')) + " " + segmentsSeparator[segmentSeparatorCounter] + " " + result;
 
-                }
-                i++;
+                segmentSeparatorCounter++;
             }
 
             return result.TrimEnd(' ');
         }
 
-        public string[] SplitNumber(string number)
+        private bool IsSegmentNotEmpty(string segment)
+        {
+            return segment.Replace("0","")!="";
+        }
+
+        public string[] SplitNumberToSegmentsOfTrees(string number)
         {
             List<string> split = new List<string>();
 
             number = number.Replace(" ", "");
 
-            string tmp = "";
-            for (int i = number.Length - 3; i >= 0; i-=3)
-            {
-                tmp = number.Substring(i, 3);
-                split.Add(tmp);
-            }
+            for (int i = number.Length - 3; i >= 0; i-=3)            
+                split.Add(number.Substring(i, 3));            
 
-            if (number.Length % 3 != 0)
-            {
-                split.Add(number.Substring(0, number.Length % 3));
-            }
+            if (number.Length % 3 != 0)            
+                split.Add(number.Substring(0, number.Length % 3));            
             
             return split.ToArray();
         }
 
-        public string From0To999(string number)
+        public string ConvertSegmentToWords(string number)
         {
             string result = string.Empty;
 
-            if (NameOfNumber.ContainsKey(number))
-                return NameOfNumber[number];
+            if (nameOfNumber.ContainsKey(number))
+                return nameOfNumber[number];
 
             if (number.Length == 2)            
-                return NameOfNumber[FirstDigit(number) + "0"] +  "-" + NameOfNumber[SecondDigit(number)];            
+                return nameOfNumber[FirstDigit(number) + "0"] +  "-" + nameOfNumber[SecondDigit(number)];            
 
             if (number.Length == 3)
             {
-                result = NameOfNumber[FirstDigit(number)] + " " + "hundred";
+                result = nameOfNumber[FirstDigit(number)] + " " + "hundred";
 
                 if(NumberCombineFromLastTwoDigit(number).Length >  0 )                
-                    result += " " + From0To999(NumberCombineFromLastTwoDigit(number));                                
+                    result += " " + ConvertSegmentToWords(NumberCombineFromLastTwoDigit(number));                                
             }
 
             return result;
@@ -170,6 +165,5 @@ namespace NumbersToWords
         {
             return number[1].ToString();
         }
-
     }
 }
