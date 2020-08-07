@@ -59,19 +59,19 @@ namespace NumbersToWords
             Assert.AreEqual(expected, words);
         }
 
-        [TestCase("one thousand", "1000")]
-        [TestCase("one thousand two", "1002")]
-        [TestCase("one thousand ten", "1010")]
-        [TestCase("one thousand eleven", "1011")]
-        [TestCase("one thousand one hundred ten", "1110")]
-        [TestCase("one thousand one hundred eleven", "1111")]
-        [TestCase("ten thousand one hundred eleven", "10111")]
+        [TestCase("one thousand", "1 000")]
+        [TestCase("one thousand two", "1 002")]
+        [TestCase("one thousand ten", "1 010")]
+        [TestCase("one thousand eleven", "1 011")]
+        [TestCase("one thousand one hundred ten", "1 110")]
+        [TestCase("one thousand one hundred eleven", "1 111")]
+        [TestCase("ten thousand one hundred eleven", "10 111")]
         [TestCase("nine hundred ninety-nine thousand nine hundred ninety-nine", "999999")]
         [TestCase("one million", "1000000")]
         [TestCase("one million one", "1 000 001")]
         [TestCase("one million one hundred thousand one", "1 100 001")]
-        [TestCase("six million three hundred forty-seven thousand six hundred thirty-four", "6347634")]
-        [TestCase("four hundred sixty-seven billion eight hundred sixty-seven million nine hundred eighty-four thousand nine hundred three", "467867984903")]
+        [TestCase("six million three hundred forty-seven thousand six hundred thirty-four", "6 347 634")]
+        [TestCase("four hundred sixty-seven billion eight hundred sixty-seven million nine hundred eighty-four thousand nine hundred three", "467 867 984 903")]
 
         public void Convert_Test(string expected, string number)
         {
@@ -96,8 +96,9 @@ namespace NumbersToWords
         public string Convert(string number)
         {
             number = number.Replace(" ", "");
-            string result = "";
+            
             int segmentSeparatorCounter = 0;
+            string result = "";
 
             foreach (string s in SplitNumberToSegmentsOfTrees(number))
             {
@@ -132,20 +133,20 @@ namespace NumbersToWords
 
         public string ConvertSegmentToWords(string number)
         {
-            string result = string.Empty;
-
             if (nameOfNumber.ContainsKey(number))
                 return nameOfNumber[number];
 
             if (number.Length == 2)            
-                return nameOfNumber[FirstDigit(number) + "0"] +  "-" + nameOfNumber[SecondDigit(number)];            
+                return nameOfNumber[FirstDigit(number) + "0"] +  "-" + nameOfNumber[SecondDigit(number)];
+
+            string result = string.Empty;            
 
             if (number.Length == 3)
             {
                 result = nameOfNumber[FirstDigit(number)] + " " + "hundred";
 
                 if(NumberCombineFromLastTwoDigit(number).Length >  0 )                
-                    result += " " + ConvertSegmentToWords(NumberCombineFromLastTwoDigit(number));                                
+                    result += " " + ConvertSegmentToWords(NumberCombineFromLastTwoDigit(number));
             }
 
             return result;
