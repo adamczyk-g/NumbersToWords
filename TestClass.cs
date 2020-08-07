@@ -39,23 +39,43 @@ namespace NumbersToWords
         [TestCase("nine hundred ninety-nine", "999")]
         public void From_0_To_999_Test(string expected, string number)
         {
-            string words = new NumberToWordsConverter().Convert(number);
+            string words = new NumberToWordsConverter().From0To999(number);
             Assert.AreEqual(expected, words);
         }
 
-        [TestCase(new string[] { "1", "000" }, "1000")]
-        [TestCase(new string[] { "1", "100" }, "1100")]
-        [TestCase(new string[] { "1", "110" }, "1110")]
-        [TestCase(new string[] { "1", "234" }, "1234")]
-        [TestCase(new string[] { "12", "345" }, "12345")]
-        [TestCase(new string[] { "123", "456" }, "123456")]
-        [TestCase(new string[] { "1", "234","567" }, "1 234 567")]
-        [TestCase(new string[] { "12", "345", "678" }, "12 345 678")]
-        [TestCase(new string[] { "123", "456", "789" }, "123 456 789")]
+        [TestCase(new string[] { "000", "1" }, "1000")]
+        [TestCase(new string[] { "100", "1" }, "1100")]
+        [TestCase(new string[] { "110", "1" }, "1110")]
+        [TestCase(new string[] { "234", "1" }, "1234")]
+        [TestCase(new string[] { "345", "12" }, "12345")]
+        [TestCase(new string[] { "456", "123" }, "123456")]
+        [TestCase(new string[] { "567", "234","1" }, "1 234 567")]
+        [TestCase(new string[] { "678", "345", "12" }, "12 345 678")]
+        [TestCase(new string[] { "789", "456", "123" }, "123 456 789")]
 
         public void Split_Test(string[] expected, string number)
         {
             string[] words = new NumberToWordsConverter().SplitNumber(number);
+            Assert.AreEqual(expected, words);
+        }
+
+        [TestCase("one thousand", "1000")]
+        [TestCase("one thousand two", "1002")]
+        [TestCase("one thousand ten", "1010")]
+        [TestCase("one thousand eleven", "1011")]
+        [TestCase("one thousand one hundred ten", "1110")]
+        [TestCase("one thousand one hundred eleven", "1111")]
+        [TestCase("ten thousand one hundred eleven", "10111")]
+        [TestCase("nine hundred ninety-nine thousand nine hundred ninety-nine", "999999")]
+        [TestCase("one million", "1000000")]
+        [TestCase("one million one", "1 000 001")]
+        [TestCase("one million one hundred thousand one", "1 100 001")]
+        [TestCase("six million three hundred forty-seven thousand six hundred thirty-four", "6347634")]
+        [TestCase("four hundred sixty-seven billion eight hundred sixty-seven million nine hundred eighty-four thousand nine hundred three", "467867984903")]
+
+        public void Convert_Test(string expected, string number)
+        {
+            string words = new NumberToWordsConverter().Convert(number);
             Assert.AreEqual(expected, words);
         }
     }
@@ -66,9 +86,33 @@ namespace NumbersToWords
             { "0", "zero"}, {"1", "one"}, {"2", "two"}, {"3", "three"}, {"4", "four"}, {"5", "five"}, {"6", "six"}, {"7", "seven"}, {"8", "eight" },
             { "9", "nine"}, {"10", "ten"}, { "11", "eleven"}, {"12", "twelve"}, {"13", "thirteen"}, {"14", "fourteen"}, {"15", "fifteen"},
             { "16", "sixteen"}, {"17", "seventeen"}, {"18", "eighteen"}, {"19", "ninteen" }, {"20", "twenty"}, {"30", "thirty"},
-            { "40", "fourty"}, {"50", "fifty"}, {"60", "sixty"}, {"70", "seventy"}, {"80", "eighty"}, {"90", "ninety" } };
-        
+            { "40", "forty"}, {"50", "fifty"}, {"60", "sixty"}, {"70", "seventy"}, {"80", "eighty"}, {"90", "ninety" } };
+
+        private readonly string[] X = new string[]{"", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion",
+            "sextillion", "septillion", "octillion","nonillion","decillion","undecillion", };
+
         public NumberToWordsConverter() { }
+
+        public string Convert(string number)
+        {
+            number = number.Replace(" ", "");
+
+            string result = "";
+
+            int i = 0;
+
+            foreach (string s in SplitNumber(number))
+            {
+                if (s!="000")
+                {
+                    result = From0To999(s.TrimStart('0')) + " " + X[i] + " " + result;                    
+
+                }
+                i++;
+            }
+
+            return result.TrimEnd(' ');
+        }
 
         public string[] SplitNumber(string number)
         {
@@ -87,16 +131,8 @@ namespace NumbersToWords
             {
                 split.Add(number.Substring(0, number.Length % 3));
             }
-            split.Reverse();
             
             return split.ToArray();
-        }
-
-        public string Convert(string number)
-        {
-            number = number.Replace(" ", "");
-
-            return From0To999(number);
         }
 
         public string From0To999(string number)
