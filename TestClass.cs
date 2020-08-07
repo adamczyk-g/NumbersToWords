@@ -42,6 +42,22 @@ namespace NumbersToWords
             string words = new NumberToWordsConverter().Convert(number);
             Assert.AreEqual(expected, words);
         }
+
+        [TestCase(new string[] { "1", "000" }, "1000")]
+        [TestCase(new string[] { "1", "100" }, "1100")]
+        [TestCase(new string[] { "1", "110" }, "1110")]
+        [TestCase(new string[] { "1", "234" }, "1234")]
+        [TestCase(new string[] { "12", "345" }, "12345")]
+        [TestCase(new string[] { "123", "456" }, "123456")]
+        [TestCase(new string[] { "1", "234","567" }, "1 234 567")]
+        [TestCase(new string[] { "12", "345", "678" }, "12 345 678")]
+        [TestCase(new string[] { "123", "456", "789" }, "123 456 789")]
+
+        public void Split_Test(string[] expected, string number)
+        {
+            string[] words = new NumberToWordsConverter().SplitNumber(number);
+            Assert.AreEqual(expected, words);
+        }
     }
 
     public class NumberToWordsConverter
@@ -52,20 +68,29 @@ namespace NumbersToWords
             { "16", "sixteen"}, {"17", "seventeen"}, {"18", "eighteen"}, {"19", "ninteen" }, {"20", "twenty"}, {"30", "thirty"},
             { "40", "fourty"}, {"50", "fifty"}, {"60", "sixty"}, {"70", "seventy"}, {"80", "eighty"}, {"90", "ninety" } };
         
-        /*
-        private readonly Dictionary<string, string> first = new Dictionary<string, string>(){
-            { "0", "zero"}, {"1", "one"}, {"2", "two"}, {"3", "three"}, {"4", "four"}, {"5", "five"}, {"6", "six"}, {"7", "seven"}, {"8", "eight" },
-            { "9", "nine"} };
-
-        private readonly Dictionary<string, string> second = new Dictionary<string, string>(){
-            {"20", "twenty"}, {"30", "thirty"}, { "40", "fourty"}, {"50", "fifty"}, {"60", "sixty"}, {"70", "seventy"}, {"80", "eighty"}, {"90", "ninety" }, {"100", "hundred" }};
-
-       
-        private readonly string[] first = {"zero", "one", "two", "three", "four", "five", "six", "seven","eight", "nine"};
-        private readonly string[] second = { "ten", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety", "hundred" };
-        */
-
         public NumberToWordsConverter() { }
+
+        public string[] SplitNumber(string number)
+        {
+            List<string> split = new List<string>();
+
+            number = number.Replace(" ", "");
+
+            string tmp = "";
+            for (int i = number.Length - 3; i >= 0; i-=3)
+            {
+                tmp = number.Substring(i, 3);
+                split.Add(tmp);
+            }
+
+            if (number.Length % 3 != 0)
+            {
+                split.Add(number.Substring(0, number.Length % 3));
+            }
+            split.Reverse();
+            
+            return split.ToArray();
+        }
 
         public string Convert(string number)
         {
