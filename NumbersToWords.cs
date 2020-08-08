@@ -21,14 +21,14 @@ namespace NumbersToWords
 
         public string Convert(string number)
         {
-            number = number.Replace(" ", "");
+            number = RemoveSpaces(number);
 
             int segmentSeparatorCounter = 0;
             string result = "";
 
-            foreach (string s in SplitNumberToSegmentsOfTrees(number))
+            foreach (string s in SplitNumberToSegmentsOfThrees(number))
             {
-                if (IsSegmentNotEmpty(s))
+                if (IsNotAllZeros(s))
                     result = ConvertSegmentToWords(s.TrimStart('0')) + " " + segmentsSeparator[segmentSeparatorCounter] + " " + result;
 
                 segmentSeparatorCounter++;
@@ -37,12 +37,17 @@ namespace NumbersToWords
             return result.TrimEnd(' ');
         }
 
-        private bool IsSegmentNotEmpty(string segment)
+        private string RemoveSpaces(string number)
+        {
+            return number.Replace(" ", "");
+        }
+
+        private bool IsNotAllZeros(string segment)
         {
             return segment.Replace("0", "") != "";
         }
 
-        public string[] SplitNumberToSegmentsOfTrees(string number)
+        public string[] SplitNumberToSegmentsOfThrees(string number)
         {
             List<string> split = new List<string>();
 

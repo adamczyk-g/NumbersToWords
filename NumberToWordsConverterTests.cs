@@ -55,7 +55,7 @@ namespace NumbersToWords
 
         public void Split_Test(string[] expected, string number)
         {
-            string[] words = new NumberToWordsConverter().SplitNumberToSegmentsOfTrees(number);
+            string[] words = new NumberToWordsConverter().SplitNumberToSegmentsOfThrees(number);
             Assert.AreEqual(expected, words);
         }
 
