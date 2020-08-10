@@ -14,8 +14,12 @@ namespace NumbersToWords
             { "16", "sixteen"}, {"17", "seventeen"}, {"18", "eighteen"}, {"19", "ninteen" }, {"20", "twenty"}, {"30", "thirty"},
             { "40", "forty"}, {"50", "fifty"}, {"60", "sixty"}, {"70", "seventy"}, {"80", "eighty"}, {"90", "ninety" } };
 
-        private readonly string[] segmentsSeparator = new string[]{"", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion",
-            "sextillion", "septillion", "octillion","nonillion","decillion","undecillion", };
+        private readonly string[] nameOfPowerOfTen = new string[]{"", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion",
+            "sextillion", "septillion", "octillion","nonillion","decillion","undecillion","duodecillion", "tredecillion", "quattuordecillion",
+            "Quindecillion", "Sedecillion", "Septendecillion", "Octodecillion", "Novendecillion", "Vigintillion", "Unvigintillion", "Duovigintillion",
+            "Tresvigintillion", "Quattuorvigintillion", "Quinvigintillion", "Sesvigintillion", "Septemvigintillion", "Octovigintillion",
+            "Novemvigintillion", "Trigintillion", "Untrigintillion", "Duotrigintillion"
+        };
 
         public NumberToWordsConverter() { }
 
@@ -29,7 +33,7 @@ namespace NumbersToWords
             foreach (string s in SplitNumberToSegmentsOfThrees(number))
             {
                 if (IsNotAllZeros(s))
-                    result = ConvertSegmentToWords(s.TrimStart('0')) + " " + segmentsSeparator[segmentSeparatorCounter] + " " + result;
+                    result = ConvertSegmentToWords(s.TrimStart('0')) + " " + nameOfPowerOfTen[segmentSeparatorCounter] + " " + result;
 
                 segmentSeparatorCounter++;
             }
