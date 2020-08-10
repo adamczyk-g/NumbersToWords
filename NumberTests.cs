@@ -39,26 +39,10 @@ namespace NumbersToWords
         [TestCase("nine hundred ninety-nine", "999")]
         public void From_0_To_999_Test(string expected, string number)
         {
-            string words = new NumberToWordsConverter().ConvertSegmentToWords(number);
+            string words = ThreeDigit.Of(number).ToWords();
             Assert.AreEqual(expected, words);
         }
-
-        [TestCase(new string[] { "000", "1" }, "1000")]
-        [TestCase(new string[] { "100", "1" }, "1100")]
-        [TestCase(new string[] { "110", "1" }, "1110")]
-        [TestCase(new string[] { "234", "1" }, "1234")]
-        [TestCase(new string[] { "345", "12" }, "12345")]
-        [TestCase(new string[] { "456", "123" }, "123456")]
-        [TestCase(new string[] { "567", "234","1" }, "1 234 567")]
-        [TestCase(new string[] { "678", "345", "12" }, "12 345 678")]
-        [TestCase(new string[] { "789", "456", "123" }, "123 456 789")]
-
-        public void Split_Test(string[] expected, string number)
-        {
-            string[] words = new NumberToWordsConverter().SplitNumberToSegmentsOfThrees(number);
-            Assert.AreEqual(expected, words);
-        }
-
+        
         [TestCase("one thousand", "1 000")]
         [TestCase("one thousand two", "1 002")]
         [TestCase("one thousand ten", "1 010")]
@@ -72,13 +56,13 @@ namespace NumbersToWords
         [TestCase("one million one hundred thousand one", "1 100 001")]
         [TestCase("six million three hundred forty-seven thousand six hundred thirty-four", "6 347 634")]
         [TestCase("four hundred sixty-seven billion eight hundred sixty-seven million nine hundred eighty-four thousand nine hundred three", "467 867 984 903")]
-
+        [TestCase("one", "001")]
+        [TestCase("eleven", "011")]
+        [TestCase("twenty", "020")]
         public void Convert_Test(string expected, string number)
         {
-            string words = new NumberToWordsConverter().Convert(number);
+            string words = Number.Of(number).ToWords();
             Assert.AreEqual(expected, words);
         }
-    }
-
-   
+    }   
 }

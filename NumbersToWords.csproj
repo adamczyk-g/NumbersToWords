@@ -40,8 +40,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NumbersToWords.cs" />
-    <Compile Include="NumberToWordsConverterTests.cs" />
+    <Compile Include="Number.cs" />
+    <Compile Include="NumberTests.cs" />
+    <Compile Include="ThreeDigit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
