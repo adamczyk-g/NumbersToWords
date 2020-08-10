@@ -41,8 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Number.cs" />
-    <Compile Include="NumberTests.cs" />
+    <Compile Include="Tests\ThreeDigitTests.cs" />
+    <Compile Include="Tests\ThreeDigitGroupTests.cs" />
+    <Compile Include="Tests\NumberTests.cs" />
     <Compile Include="ThreeDigit.cs" />
+    <Compile Include="ThreeDigitsGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

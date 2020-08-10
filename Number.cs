@@ -21,12 +21,12 @@ namespace NumbersToWords
 
         public string ToWords()
         {
-            string number = RemoveSpaces(this.number);
+            string number = RemoveAllSpaces(this.number);
 
             int segmentSeparatorCounter = 0;
             string result = "";
 
-            foreach (string s in SplitNumberToThreeDigitParts(number))
+            foreach (string s in new ThreeDigitsGroup(number).Get())
             {
                 if (IsNotAllZeros(s))
                     result = ThreeDigit.Of(s.TrimStart('0')).ToWords() + " " + nameOfPowerOfTen[segmentSeparatorCounter] + " " + result;
@@ -37,7 +37,7 @@ namespace NumbersToWords
             return result.TrimEnd(' ');
         }
 
-        private string RemoveSpaces(string number)
+        private string RemoveAllSpaces(string number)
         {
             return number.Replace(" ", "");
         }
@@ -45,21 +45,6 @@ namespace NumbersToWords
         private bool IsNotAllZeros(string segment)
         {
             return segment.Replace("0", "") != "";
-        }
-
-        private string[] SplitNumberToThreeDigitParts(string number)
-        {
-            List<string> split = new List<string>();
-
-            number = number.Replace(" ", "");
-
-            for (int i = number.Length - 3; i >= 0; i -= 3)
-                split.Add(number.Substring(i, 3));
-
-            if (number.Length % 3 != 0)
-                split.Add(number.Substring(0, number.Length % 3));
-
-            return split.ToArray();
         }
     } 
 }
