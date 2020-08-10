@@ -79,7 +79,7 @@ namespace NumbersToWords
         [TestCase("twenty", "020")]
         public void Convert_Test(string expected, string number)
         {
-            string words =  Number.Of(number).ToWords();
+            string words =  Number.Of(new ThreeDigitsGroup(number)).ToWords();
             Assert.AreEqual(expected, words);
         }
     }   

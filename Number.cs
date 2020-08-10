@@ -14,19 +14,17 @@ namespace NumbersToWords
             "Tresvigintillion", "Quattuorvigintillion", "Quinvigintillion", "Sesvigintillion", "Septemvigintillion", "Octovigintillion",
             "Novemvigintillion", "Trigintillion", "Untrigintillion", "Duotrigintillion"
         };
-        private readonly string number;
+        private readonly ThreeDigitsGroup group;
 
-        private Number(string number) { this.number = number; }
-        public static Number Of(string number) { return new Number(number); }
+        private Number(ThreeDigitsGroup group) { this.group = group; }
+        public static Number Of(ThreeDigitsGroup group) { return new Number(group); }
 
         public string ToWords()
         {
-            string number = RemoveAllSpaces(this.number);
-
             int segmentSeparatorCounter = 0;
             string result = "";
 
-            foreach (string s in new ThreeDigitsGroup(number).Get())
+            foreach (string s in group.Get())
             {
                 if (IsNotAllZeros(s))
                     result = ThreeDigit.Of(s.TrimStart('0')).ToWords() + " " + nameOfPowerOfTen[segmentSeparatorCounter] + " " + result;
