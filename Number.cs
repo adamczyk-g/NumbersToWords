@@ -14,22 +14,22 @@ namespace NumbersToWords
             "Tresvigintillion", "Quattuorvigintillion", "Quinvigintillion", "Sesvigintillion", "Septemvigintillion", "Octovigintillion",
             "Novemvigintillion", "Trigintillion", "Untrigintillion", "Duotrigintillion"
         };
-        private readonly ThreeDigitsGroup group;
+        private readonly GroupOfThreeDigitSegments group;
 
-        private Number(ThreeDigitsGroup group) { this.group = group; }
-        public static Number Of(ThreeDigitsGroup group) { return new Number(group); }
+        private Number(GroupOfThreeDigitSegments group) { this.group = group; }
+        public static Number Of(GroupOfThreeDigitSegments group) { return new Number(group); }
 
         public string ToWords()
         {
-            int segmentSeparatorCounter = 0;
+            int arrayIndex = 0;
             string result = "";
 
-            foreach (string s in group.Get())
+            foreach (string threeDigitData in group.Group())
             {
-                if (IsNotAllZeros(s))
-                    result = ThreeDigit.Of(s.TrimStart('0')).ToWords() + " " + nameOfPowerOfTen[segmentSeparatorCounter] + " " + result;
+                if (IsNotAllZeros(threeDigitData))
+                    result = ThreeDigit.Of(threeDigitData.TrimStart('0')).ToWords() + " " + nameOfPowerOfTen[arrayIndex] + " " + result;
 
-                segmentSeparatorCounter++;
+                arrayIndex++;
             }
 
             return result.TrimEnd(' ');

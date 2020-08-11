@@ -56,7 +56,7 @@ namespace NumbersToWords
 
         public void Split_Test(string[] expected, string number)
         {
-            IEnumerable<string> words = new ThreeDigitsGroup(number).Get();
+            IEnumerable<string> words = new GroupOfThreeDigitSegments(number).Group();
             Assert.AreEqual(expected, words);
         }
         
@@ -79,7 +79,7 @@ namespace NumbersToWords
         [TestCase("twenty", "020")]
         public void Convert_Test(string expected, string number)
         {
-            string words =  Number.Of(new ThreeDigitsGroup(number)).ToWords();
+            string words =  Number.Of(new GroupOfThreeDigitSegments(number)).ToWords();
             Assert.AreEqual(expected, words);
         }
     }   

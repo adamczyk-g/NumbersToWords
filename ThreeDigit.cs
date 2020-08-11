@@ -35,7 +35,7 @@ namespace NumbersToWords
                 result = nameOfNumber[FirstDigit(number)] + " " + "hundred";
 
                 if (NumberCombineFromLastTwoDigit(number).Length > 0)
-                    result += " " + ThreeDigit.Of(NumberCombineFromLastTwoDigit(number)).ToWords();
+                    result += " " + Of(NumberCombineFromLastTwoDigit(number)).ToWords();
             }
 
             return result;
@@ -43,7 +43,7 @@ namespace NumbersToWords
 
         private string NumberCombineFromLastTwoDigit(string number)
         {
-            return number.Substring(1).TrimStart('0');
+            return number.Substring(1,2).TrimStart('0');
         }
 
         private string FirstDigit(string number)
