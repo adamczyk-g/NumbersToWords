@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace NumbersToWords
 {
     [TestFixture]
-    public class ThreeDigitGroup_Tests
+    public class ThreeDigitGroupTests
     {                
         [TestCase(new string[] { "000", "1" }, "1000")]
         [TestCase(new string[] { "100", "1" }, "1100")]
@@ -17,7 +17,7 @@ namespace NumbersToWords
         [TestCase(new string[] { "678", "345", "12" }, "12 345 678")]
         [TestCase(new string[] { "789", "456", "123" }, "123 456 789")]
 
-        public void Get_Test(string[] expected, string number)
+        public void GropuDigits_Test(string[] expected, string number)
         {
             IEnumerable<string> words = new GroupOfThreeDigitSegments(number).Group();
             Assert.AreEqual(expected, words);

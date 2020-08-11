@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace NumbersToWords
 {
     [TestFixture]
-    public class ThreeDigit_Tests
+    public class ThreeDigitTests
     {
         [TestCase("zero", "0")]
         [TestCase("one", "1")]
