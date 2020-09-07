@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NumbersToWords
+﻿namespace NumbersToWords
 {
     public class Number
     {
@@ -14,17 +8,18 @@ namespace NumbersToWords
             "Tresvigintillion", "Quattuorvigintillion", "Quinvigintillion", "Sesvigintillion", "Septemvigintillion", "Octovigintillion",
             "Novemvigintillion", "Trigintillion", "Untrigintillion", "Duotrigintillion"
         };
-        private readonly ThreeDigitsGroup group;
+        private readonly ThreeDigitsGroup threeDigitsGroup;
 
-        private Number(string number) { this.group = new ThreeDigitsGroup(number); }
+        private Number(string number) { this.threeDigitsGroup = new ThreeDigitsGroup(number); }
+
         public static Number Of(string number) { return new Number(number); }
 
         public string ToWords()
         {
             int powerOfTenArrayIndex = 0;
-            string result = "";
+            string result = string.Empty;
 
-            foreach (ThreeDigit threeDigitData in group.Group())
+            foreach (ThreeDigit threeDigitData in threeDigitsGroup.Group())
             {
                 if (threeDigitData.ToWords() != string.Empty)
                    result = threeDigitData.ToWords() + " " + nameOfPowerOfTen[powerOfTenArrayIndex] + " " + result;
@@ -33,11 +28,6 @@ namespace NumbersToWords
             }
 
             return result.TrimEnd(' ');
-        }
-
-        private bool IsNotAllZeros(string segment)
-        {
-            return segment.Replace("0", "") != "";
-        }
+        }       
     } 
 }

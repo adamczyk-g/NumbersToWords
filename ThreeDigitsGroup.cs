@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace NumbersToWords
 {
@@ -14,24 +10,30 @@ namespace NumbersToWords
         
         public IEnumerable<ThreeDigit> Group()
         {
-            List<ThreeDigit> group = new List<ThreeDigit>();
-            string threeDigit = string.Empty;
+            IEnumerable<ThreeDigit> group = new List<ThreeDigit>();
             
-            string number = this.number.Replace(" ", "");
+            string numberWithoutSpaces = RemoveSpaces(number);
 
-            for (int i = number.Length - 3; i >= 0; i -= 3)
-            {
-                threeDigit = number.Substring(i, 3);
-                group.Add(ThreeDigit.Of(threeDigit.TrimStart('0')));
-            }
-
-            if (number.Length % 3 != 0)
-            {
-                threeDigit = number.Substring(0, number.Length % 3);
-                group.Add(ThreeDigit.Of(threeDigit.TrimStart('0')));
-            }
+            group = SplitToThree(numberWithoutSpaces);
 
             return group;
         }
+
+        private IEnumerable<ThreeDigit> SplitToThree(string number)
+        {
+            List<ThreeDigit> group = new List<ThreeDigit>();
+
+            for (int i = number.Length - 3; i >= 0; i -= 3)            
+                group.Add(ThreeDigit.Of(number.Substring(i, 3).TrimStart('0')));
+
+            if (IsNotMultipleOfThree(number.Length))            
+                group.Add(ThreeDigit.Of(number.Substring(0, number.Length % 3).TrimStart('0')));            
+
+            return group;
+        }
+
+        private bool IsNotMultipleOfThree(int number) => number % 3 != 0;
+
+        private string RemoveSpaces(string number) => number.Replace(" ", "");        
     }
 }

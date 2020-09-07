@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace NumbersToWords
 {
@@ -41,19 +37,10 @@ namespace NumbersToWords
             return result;
         }
 
-        private string NumberCombineFromLastTwoDigit(string number)
-        {
-            return number.Substring(1,2).TrimStart('0');
-        }
+        private string NumberCombineFromLastTwoDigit(string number) => number.Substring(1,2).TrimStart('0');
 
-        private string FirstDigit(string number)
-        {
-            return number[0].ToString();
-        }
+        private string FirstDigit(string number) => number[0].ToString();
 
-        private string SecondDigit(string number)
-        {
-            return number[1].ToString();
-        }
+        private string SecondDigit(string number) => number[1].ToString();        
     }
 }
