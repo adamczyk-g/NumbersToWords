@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace NumbersToWords
 {
-    public class GroupOfThreeDigitSegments
+    public class ThreeDigitsGroup
     {
         private readonly string number;
 
-        public GroupOfThreeDigitSegments(string number) { this.number = number; }
+        public ThreeDigitsGroup(string number) { this.number = number; }
         
         public IEnumerable<string> Group()
         {

@@ -14,10 +14,10 @@ namespace NumbersToWords
             "Tresvigintillion", "Quattuorvigintillion", "Quinvigintillion", "Sesvigintillion", "Septemvigintillion", "Octovigintillion",
             "Novemvigintillion", "Trigintillion", "Untrigintillion", "Duotrigintillion"
         };
-        private readonly GroupOfThreeDigitSegments group;
+        private readonly ThreeDigitsGroup group;
 
-        private Number(GroupOfThreeDigitSegments group) { this.group = group; }
-        public static Number Of(GroupOfThreeDigitSegments group) { return new Number(group); }
+        private Number(ThreeDigitsGroup group) { this.group = group; }
+        public static Number Of(ThreeDigitsGroup group) { return new Number(group); }
 
         public string ToWords()
         {

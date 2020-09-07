@@ -19,7 +19,7 @@ namespace NumbersToWords
 
         public void GropuDigits_Test(string[] expected, string number)
         {
-            IEnumerable<string> words = new GroupOfThreeDigitSegments(number).Group();
+            IEnumerable<string> words = new ThreeDigitsGroup(number).Group();
             Assert.AreEqual(expected, words);
         }
     }   
