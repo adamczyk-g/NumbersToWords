@@ -25,7 +25,7 @@ namespace NumbersToWords
         [TestCase("twenty", "020")]
         public void Number_ToWords_Test(string expected, string number)
         {
-            string words =  Number.Of(new ThreeDigitsGroup(number)).ToWords();
+            string words =  Number.Of(number).ToWords();
             Assert.AreEqual(expected, words);
         }
     }   

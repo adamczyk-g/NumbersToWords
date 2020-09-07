@@ -12,19 +12,26 @@ namespace NumbersToWords
 
         public ThreeDigitsGroup(string number) { this.number = number; }
         
-        public IEnumerable<string> Group()
+        public IEnumerable<ThreeDigit> Group()
         {
-            List<string> split = new List<string>();
+            List<ThreeDigit> group = new List<ThreeDigit>();
+            string threeDigit = string.Empty;
             
             string number = this.number.Replace(" ", "");
 
             for (int i = number.Length - 3; i >= 0; i -= 3)
-                split.Add(number.Substring(i, 3));
+            {
+                threeDigit = number.Substring(i, 3);
+                group.Add(ThreeDigit.Of(threeDigit.TrimStart('0')));
+            }
 
             if (number.Length % 3 != 0)
-                split.Add(number.Substring(0, number.Length % 3));
+            {
+                threeDigit = number.Substring(0, number.Length % 3);
+                group.Add(ThreeDigit.Of(threeDigit.TrimStart('0')));
+            }
 
-            return split;
+            return group;
         }
     }
 }

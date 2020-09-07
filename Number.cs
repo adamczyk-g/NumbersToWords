@@ -16,20 +16,20 @@ namespace NumbersToWords
         };
         private readonly ThreeDigitsGroup group;
 
-        private Number(ThreeDigitsGroup group) { this.group = group; }
-        public static Number Of(ThreeDigitsGroup group) { return new Number(group); }
+        private Number(string number) { this.group = new ThreeDigitsGroup(number); }
+        public static Number Of(string number) { return new Number(number); }
 
         public string ToWords()
         {
-            int arrayIndex = 0;
+            int powerOfTenArrayIndex = 0;
             string result = "";
 
-            foreach (string threeDigitData in group.Group())
+            foreach (ThreeDigit threeDigitData in group.Group())
             {
-                if (IsNotAllZeros(threeDigitData))
-                    result = ThreeDigit.Of(threeDigitData.TrimStart('0')).ToWords() + " " + nameOfPowerOfTen[arrayIndex] + " " + result;
+                if (threeDigitData.ToWords() != string.Empty)
+                   result = threeDigitData.ToWords() + " " + nameOfPowerOfTen[powerOfTenArrayIndex] + " " + result;
 
-                arrayIndex++;
+                powerOfTenArrayIndex++;
             }
 
             return result.TrimEnd(' ');
