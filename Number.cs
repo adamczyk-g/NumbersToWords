@@ -35,11 +35,6 @@ namespace NumbersToWords
             return result.TrimEnd(' ');
         }
 
-        private string RemoveAllSpaces(string number)
-        {
-            return number.Replace(" ", "");
-        }
-
         private bool IsNotAllZeros(string segment)
         {
             return segment.Replace("0", "") != "";
